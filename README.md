@@ -12,7 +12,7 @@ To run the code in this repository, you will need the following:
 
 Once you have these items, you can clone this repository to your local machine:
 ```
-git clone https://github.com/moekhodry11/PIC16F877A-Interrupt-Lab.git
+git clone https://github.com/moekhodry11/PIC-Interrupt-Lab.git
 ```
 
 # Contents
