@@ -1,5 +1,5 @@
 # PIC16F877A-Interrupt-Lab
-s This repository contains code and documentation for a lab project on interrupt programming using the PIC16F877A microcontroller and the mikroC IDE.
+ This repository contains code and documentation for a lab project on interrupt programming using the PIC16F877A microcontroller and the mikroC IDE.
  
  
 # Getting started
