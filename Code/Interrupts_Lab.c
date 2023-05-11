@@ -23,12 +23,33 @@ sbit LCD_D6_Direction at TRISC2_bit;
 sbit LCD_D7_Direction at TRISC3_bit;
 
 //Motor
-// LED pin
 sbit Motor_Pin at RB7_bit;
 sbit Motor_Direction at TRISB7_bit;
 
+
+// LED pin
+sbit LED_Pin at RB6_bit;
+sbit LED_Direction at TRISB6_bit;
+
+ //timer
+  int time,counter=0;
+
+
+
+void initialize_timer_Interrupt(void){
+    TMR0IE_bit=1;       // Enable timer 0 interrupt
+    GIE_bit=1;          //Enable Global Interrupt
+    T0CS_bit=0;                  // Select f/4 clock for the TMR0
+    PSA_bit=0;                 // Prescaler is assigned to the Timer0 module
+    PS0_bit=0;                // Set pre-scaler to 32
+    PS1_bit=1;                // PS2,PS1,PS0 = 100
+    PS2_bit=0;
+    TMR0=6;                  //counter starting value
+}
+
 void main() {
   Motor_Direction = 0;  // Set MOTOR pin as output
+  LED_Direction = 0;  // Set LED pin as output
   TRISB.B1=0;
   PORTB.B1=0;
   Keypad_Init();
@@ -38,11 +59,22 @@ void main() {
   Lcd_Out(1, 1, "Enter Pass:");
 
 while(1){
+           LED_Pin = 1;  // Turn on the LED
+           Delay_ms(100);  // Delay for 1 seconds
+           LED_Pin = 0;  // Turn on the LED
+           Delay_ms(100);  // Delay for 1 seconds
+if(counter>=3000){  // check if the counter reaches 125
+                   Motor_Pin = 0;  // Turn ff the Motor
+
+            //time=time++;    // increase time one second
+           }
+           
 
     kp = 0;
-    do
+    //do
       kp = Keypad_Key_Click();             // Store key code in kp variable
-    while (!kp);
+    //while (!kp);
+ if (kp && Motor_Pin==0) {
 
       switch (kp) {
       case  1: kp = '1'; break; // 1        // Uncomment this block for keypad4x4
@@ -75,13 +107,23 @@ else if (kp == '#'){
          {         Lcd_Cmd(_LCD_CLEAR);
                    LCD_Out_CP("CORRECT");
                    Motor_Pin = 1;  // Turn on the Motor
-                   Delay_ms(1000);  // Delay for 1 seconds
-                   Motor_Pin = 0;  // Turn off the Motor
+            counter=0;      // start counter from the beginning
+                   initialize_timer_Interrupt();   // invoke timer interrupt initialization function
+                   //Motor_Pin = 0;  // Turn off the Motor
          }
 }else{
   password[count] = kp;
   count++;
   Lcd_Chr_CP('*');
     }
+      }
+  }
+}
+
+void interrupt() {        // Interrupt handler
+  if (INTCON.TMR0IF==1) {     // check for timer 0 interrupt flag
+    counter++;                // increment 1 every interrupt
+    INTCON.TMR0IF=0;          // reset the TMR0IF flag
+    TMR0=6;                   // store 6 in the TMR0 register
   }
 }
