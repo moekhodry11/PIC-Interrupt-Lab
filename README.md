@@ -1,5 +1,5 @@
 # PIC16F877A-Interrupt-Lab
- This repository contains code and documentation for a lab project on interrupt programming using the PIC16F877A microcontroller and the mikroC IDE.
+  This code implements a garage security system that uses a password-protected keypad to control the opening and closing of a garage door motor. The motor runs for 4 seconds after the correct password is entered, regulated by timer interrupts.
  
  
 # Getting started
@@ -14,6 +14,26 @@ Once you have these items, you can clone this repository to your local machine:
 ```
 git clone https://github.com/moekhodry11/PIC-Interrupt-Lab.git
 ```
+# Hardware Requirements
+- PIC16F877A microcontroller
+- Keypad module
+- LCD module
+- Motor
+- Relay Module
+- 9V battery 
+
+# Implementation
+
+The code initializes the hardware components and sets up the timer interrupt. The user is prompted to enter the password using the keypad, and the system checks if the entered password is correct. If the password is correct, the motor turns on and runs for 4 seconds before turning off. The timer interrupt is used to regulate the motor's operation and ensure that it runs for the correct amount of time.
+
+If an incorrect password is entered, the system displays a message indicating that the password is incorrect. The user can reset the password by pressing the "*" key on the keypad. The LCD display is also updated to show the entered password as a series of asterisks for added security.
+
+# Usage
+- Connect the hardware components to the microcontroller as specified in the code.
+- Compile and upload the code to the microcontroller using the mikroC IDE.
+- Enter the correct password on the keypad to activate the motor and open the garage door.
+- Press the "*" key to reset the password.
+- Observe the LCD display for feedback on the system's status.
 
 # Contents
 This repository contains several example programs that demonstrate different types of interrupts in the PIC16F877A microcontroller. Each program is located in a separate folder and includes a README file that explains how it works.
